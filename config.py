@@ -163,6 +163,8 @@ OPTIMIZER_CONFIG = {
     },
 }
 
+VALID_OPTIMIZERS = [opt.value for opt in OptimizerType]
+
 # ============================================================================
 # EXPERIMENT CONFIGURATION DATACLASS
 # ============================================================================
@@ -252,8 +254,8 @@ class ExperimentConfig:
         assert self.dropout_rate in VALID_DROPOUT_RATES, (
             f"Dropout {self.dropout_rate} not in {VALID_DROPOUT_RATES}"
         )
-        assert self.optimizer in OPTIMIZER_CONFIG, (
-            f"Optimizer {self.optimizer} not in {list(OPTIMIZER_CONFIG.keys())}"
+        assert self.optimizer in VALID_OPTIMIZERS, (
+            f"Optimizer {self.optimizer} not in {VALID_OPTIMIZERS}"
         )
 
     def to_dict(self) -> Dict[str, Any]:

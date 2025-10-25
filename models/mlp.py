@@ -104,36 +104,44 @@ def build_optimizer(
     Returns:
         TensorFlow optimizer instance
 
-    Note:
-        Hyperparameters taken from OPTIMIZER_CONFIG (tuned per paper context)
+    Implements:
+        - SGD: Stochastic Gradient Descent with momentum
+        - Adam: Adaptive Moment Estimation
+        - RMSprop: Root Mean Square Propagation
+
+    Each optimizer has tuned hyperparameters from OPTIMIZER_CONFIG.
     """
 
-    config = OPTIMIZER_CONFIG.get(optimizer_type)
-    if config is None:
-        raise ValueError(f"Unknown optimizer: {optimizer_type}")
-
-    lr = config["learning_rate"]
-
-    if optimizer_type == OptimizerType.SGD.value:
+    if optimizer_type == OptimizerType.SGD.value:  # "sgd"
+        config = OPTIMIZER_CONFIG[OptimizerType.SGD]
         return tf.keras.optimizers.SGD(
-            learning_rate=lr, momentum=config.get("momentum", 0.0), seed=seed
-        )
-
-    elif optimizer_type == OptimizerType.ADAM.value:
-        return tf.keras.optimizers.Adam(
-            learning_rate=lr,
-            beta_1=config.get("beta_1", 0.9),
-            beta_2=config.get("beta_2", 0.999),
+            learning_rate=config["learning_rate"],
+            momentum=config["momentum"],
             seed=seed,
         )
 
-    elif optimizer_type == OptimizerType.RMSPROP.value:
+    elif optimizer_type == OptimizerType.ADAM.value:  # "adam"
+        config = OPTIMIZER_CONFIG[OptimizerType.ADAM]
+        return tf.keras.optimizers.Adam(
+            learning_rate=config["learning_rate"],
+            beta_1=config["beta_1"],
+            beta_2=config["beta_2"],
+            seed=seed,
+        )
+
+    elif optimizer_type == OptimizerType.RMSPROP.value:  # "rmsprop"
+        config = OPTIMIZER_CONFIG[OptimizerType.RMSPROP]
         return tf.keras.optimizers.RMSprop(
-            learning_rate=lr, rho=config.get("rho", 0.9), seed=seed
+            learning_rate=config["learning_rate"],
+            rho=config["rho"],
+            seed=seed,
         )
 
     else:
-        raise ValueError(f"Unknown optimizer: {optimizer_type}")
+        raise ValueError(
+            f"Unknown optimizer: {optimizer_type}. "
+            f"Must be one of: {[o.value for o in OptimizerType]}"
+        )
 
 
 # ============================================================================
