@@ -1,0 +1,65 @@
+# ============================================================================
+# Catastrophic Forgetting Analysis - CS 599 Deep Learning
+# Project Dependencies
+# ============================================================================
+
+# Core Machine Learning Framework
+# TensorFlow 2.14.0 + Metal 1.1.0 are compatible and tested on Apple Silicon
+tensorflow==2.14.0
+
+# Apple Silicon GPU Acceleration (Mac-specific)
+# Metal plugin for M1/M2/M3 Macs - provides ~5x speedup
+tensorflow-metal==1.1.0
+
+# ============================================================================
+# Data & Numerical Computing
+# ============================================================================
+
+# NumPy: Numerical computing, array operations
+# Used throughout for: permutations, array indexing, statistics
+numpy>=1.23.0,<2.0.0
+
+# Scikit-learn: Machine learning utilities
+# Used for: auxiliary metrics, preprocessing utilities
+scikit-learn>=1.2.0,<2.0.0
+
+# ============================================================================
+# Visualization & Plotting
+# ============================================================================
+
+# Matplotlib: Publication-quality figure generation
+# Used for: all 8 PDF figures, high-quality charts, heatmaps
+matplotlib>=3.6.0,<4.0.0
+
+# ============================================================================
+# Optional Development Tools (for interactive development)
+# ============================================================================
+
+# Jupyter: Interactive notebooks for exploration
+# Optional: use for debugging individual experiments
+jupyter>=1.0.0
+
+# IPython: Enhanced Python shell
+# Optional: better REPL experience for debugging
+ipython>=8.0.0
+
+
+
+# ============================================================================
+# Virtual Environment & Installation Instructions
+# ============================================================================
+#   virtual environment:
+#    python3.10 -m venv venv
+#    source venv/bin/activate
+#
+# 2. Install dependencies:
+#    pip install -r requirements.txt
+#
+# 3. Verify installation (especially on Mac):
+#    python -c "import tensorflow as tf; print(tf.config.list_physical_devices('GPU'))"
+#
+# 4. Expected output on Mac with Metal GPU:
+#    [PhysicalDevice(name='/physical_device:GPU:0', device_type='GPU')]
+#
+# If no GPU found:
+#    pip install --no-cache-dir tensorflow-metal tensorflow
