@@ -140,11 +140,11 @@ Example interpretation:
 ```
          Task 0   Task 1   Task 2   ...
        ┌──────────────────────────────┐
-Task 0 │ 0.92     0.10     0.05      │  (After learning Task 0)
-Task 1 │ 0.85     0.90     0.10      │  (After learning Tasks 0-1)
-Task 2 │ 0.42     0.88     0.91      │  (After learning Tasks 0-2)
-...    │ ...      ...      ...       │
-Task 9 │ 0.30     0.65     0.78      │  (After learning all tasks)
+Task 0 │ 0.92     0.10     0.05       │  (After learning Task 0)
+Task 1 │ 0.85     0.90     0.10       │  (After learning Tasks 0-1)
+Task 2 │ 0.42     0.88     0.91       │  (After learning Tasks 0-2)
+...    │ ...      ...      ...        │
+Task 9 │ 0.30     0.65     0.78       │  (After learning all tasks)
        └──────────────────────────────┘
 
 Observations:
@@ -242,7 +242,7 @@ Observations:
 
 - Adam typically converges faster (better initial learning)
 - SGD with momentum may generalize better (less forgetting?)
-- RMSprop is middle ground
+- RMSprop is a middle ground
 
 **Visualization:** `optimizer_comparison.pdf`
 
@@ -391,7 +391,7 @@ Cache is automatically invalidated when:
 
 1. Config parameters change (different hash)
 2. `force_regenerate=True` flag passed
-3. Cache files manually deleted
+3. Cache files are manually deleted
 
 ---
 
@@ -445,7 +445,7 @@ BWT = -0.05  →  Lose only 5% accuracy on old tasks
 Example:
 - Task 0: 90% immediately after learning
 - Task 0: 85% after learning 9 more tasks
-- Continual learning working reasonably well
+- Continual learning is working reasonably well
 ```
 
 ### Comparing Metrics Across Configurations
