@@ -97,9 +97,11 @@ def build_optimizer(
     """
     Build optimizer with configured hyperparameters.
 
+    UPDATED: Now uses legacy optimizers for M1/M2 Metal GPU compatibility.
+
     Args:
         optimizer_type: One of "sgd", "adam", "rmsprop"
-        seed: Random seed for reproducibility
+        seed: Random seed for reproducibility (used for TF seeds, not optimizer)
 
     Returns:
         TensorFlow optimizer instance
@@ -110,31 +112,33 @@ def build_optimizer(
         - RMSprop: Root Mean Square Propagation
 
     Each optimizer has tuned hyperparameters from OPTIMIZER_CONFIG.
+
+    IMPORTANT CHANGES:
+        - Uses tf.keras.optimizers.legacy.* for Metal GPU (M1/M2 Macs)
+        - Removed 'seed' parameter (not supported in modern optimizer API)
+        - Seed is handled separately via tf.random.set_seed() and np.random.seed()
     """
 
     if optimizer_type == OptimizerType.SGD.value:  # "sgd"
         config = OPTIMIZER_CONFIG[OptimizerType.SGD]
-        return tf.keras.optimizers.SGD(
+        return tf.keras.optimizers.legacy.SGD(
             learning_rate=config["learning_rate"],
             momentum=config["momentum"],
-            seed=seed,
         )
 
     elif optimizer_type == OptimizerType.ADAM.value:  # "adam"
         config = OPTIMIZER_CONFIG[OptimizerType.ADAM]
-        return tf.keras.optimizers.Adam(
+        return tf.keras.optimizers.legacy.Adam(
             learning_rate=config["learning_rate"],
             beta_1=config["beta_1"],
             beta_2=config["beta_2"],
-            seed=seed,
         )
 
     elif optimizer_type == OptimizerType.RMSPROP.value:  # "rmsprop"
         config = OPTIMIZER_CONFIG[OptimizerType.RMSPROP]
-        return tf.keras.optimizers.RMSprop(
+        return tf.keras.optimizers.legacy.RMSprop(
             learning_rate=config["learning_rate"],
             rho=config["rho"],
-            seed=seed,
         )
 
     else:
