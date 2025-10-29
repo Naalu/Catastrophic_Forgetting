@@ -393,9 +393,29 @@ def main(
     try:
         # Setup
         setup_logging(verbose=verbose_logging)
+        gpu_status = verify_gpu_availability()
+        logging.info(f"Acceleration: {gpu_status}")
         logging.info("Starting catastrophic forgetting analysis pipeline")
         logging.info(f"Seed value: {SEED_VALUE}")
         logging.info(f"Force regenerate: {force_regenerate}")
+
+        # ============================================================================
+        # PATCH: Configure GPU for Metal (M1/M2)
+        # ============================================================================
+        logging.info("Configuring GPU...")
+        gpus = tf.config.list_physical_devices("GPU")
+
+        if gpus:
+            logging.info(f"✓ GPU available: {len(gpus)} GPU(s)")
+            for gpu in gpus:
+                try:
+                    tf.config.experimental.set_memory_growth(gpu, True)
+                    logging.info("  ✓ Memory growth enabled")
+                except RuntimeError as e:
+                    logging.warning(f"  ✗ Could not set memory growth: {e}")
+        else:
+            logging.warning("⚠️  No GPU detected - training will use CPU")
+        # ============================================================================
 
         # Create runner
         runner = ExperimentRunner(seed=SEED_VALUE, force_regenerate=force_regenerate)

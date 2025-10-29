@@ -1198,11 +1198,12 @@ def generate_all_visualizations(
 
     # Aggregate results for distribution plots
     aggregated = {}
-    for suite_name, configs in experiment_suites.items():
+    for (
+        suite_name,
+        config_name_list,
+    ) in experiment_suites.items():  # ✅ Renamed: configs → config_name_list
         suite_results = {
-            cfg.experiment_name: results[cfg.experiment_name]
-            for cfg in configs
-            if cfg.experiment_name in results
+            name: results[name] for name in config_name_list if name in results
         }
         if suite_results:
             aggregated[suite_name] = suite_results
