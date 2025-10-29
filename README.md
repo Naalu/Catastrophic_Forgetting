@@ -374,7 +374,7 @@ Running all 42 experiments from scratch takes **3-5 hours**. Caching enables:
 
 - Location: `results/cache/permuted_mnist/task_*.pkl`
 - Size: 2.19 GB total (one-time cost)
-- First load: ~30 seconds (MNIST download + processing)
+- First load: ~60 seconds (MNIST download + processing)
 - Subsequent: ~1 second (load from pickle)
 - Shared across all 42 experiments
 
@@ -382,7 +382,7 @@ Running all 42 experiments from scratch takes **3-5 hours**. Caching enables:
 
 - Location: `results/cache/experiments/result_<hash>.json`
 - Key: MD5 hash of ExperimentConfig
-- First run: 5-10 minutes per experiment
+- First run: 60-90 minutes per experiment
 - Subsequent: <1 second per experiment
 
 ### Cache Invalidation
@@ -400,19 +400,19 @@ Cache is automatically invalidated when:
 ### First Run (Clean Cache)
 
 ```
-Data loading:          ~30 seconds
-Training 42 experiments:  3-5 hours
-Visualization:         ~2 minutes
-Total:                3-5 hours
+Data loading:             ~ 60 seconds
+Training 42 experiments:  ~ 45 hours
+Visualization:            ~  5 minutes
+Total:                    ~  2 days 
 ```
 
 ### Subsequent Runs (Cache Hits)
 
 ```
-Data loading:          ~1 second
-All experiments:       <1 second (JSON load)
-Visualization:        ~2 minutes
-Total:                ~30 seconds
+Data loading:             ~ 1 second
+All experiments:          < 1 second (JSON load)
+Visualization:            ~ 2 minutes
+Total:                    ~ 2 minutes
 ```
 
 ### System Requirements
@@ -420,7 +420,7 @@ Total:                ~30 seconds
 - **Disk Space:** 2.5 GB (MNIST cache + results)
 - **RAM:** 4 GB minimum (16 GB recommended)
 - **GPU:** Optional but recommended (Metal on Mac, CUDA on Linux)
-- **Time:** 3-5 hours first run, 30 seconds cached
+- **Time:** 2 days first run, 2 minutes cached
 
 ---
 
@@ -567,12 +567,6 @@ pip install --no-cache-dir tensorflow-metal tensorflow
 python -c "from tensorflow import keras; print(keras.backend.device)"
 ```
 
-### Performance Impact
-
-- **Without GPU:** 3-5 hours (CPU only)
-- **With Metal GPU:** 45-60 minutes (M1/M2, ~5x speedup)
-- Metal automatically used if available (no code changes needed)
-
 ---
 
 ## Troubleshooting
@@ -633,12 +627,6 @@ BATCH_SIZE = 16  # From 32
 - Continual Learning: [Parisi et al. Survey](https://arxiv.org/abs/1802.07569)
 - Catastrophic Forgetting: [French (1999) Classic Paper](https://www.sciencedirect.com/science/article/pii/S1364661399012949)
 - Permuted MNIST Benchmark: Standard for continual learning evaluation
-
----
-
-## License & Attribution
-
-This code is provided for educational purposes in CS 599 (Foundations of Deep Learning) at Northern Arizona University.
 
 ---
 
